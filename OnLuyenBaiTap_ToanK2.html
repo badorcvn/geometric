@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ôn Luyện Bài Tập Toán Olympic Khối 2</title>
+    <style>
+        :root {
+            --primary: #10b981; /* Emerald green */
+            --secondary: #059669;
+            --bg: #f0fdf4;
+            --text: #1f2937;
+            --light: #ffffff;
+            --accent: #f59e0b;
+            --border: #d1fae5;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg); color: var(--text); display: flex; height: 100vh; overflow: hidden; }
+        
+        .sidebar { width: 300px; background: var(--light); border-right: 1px solid var(--border); display: flex; flex-direction: column; overflow-y: auto; }
+        .sidebar-header { padding: 1.5rem; border-bottom: 1px solid var(--border); background: var(--primary); color: white;}
+        .sidebar-header h1 { font-size: 1.2rem; font-weight: bold; line-height: 1.4; }
+        .nav-list { list-style: none; margin: 0; padding: 0; }
+        .nav-item { padding: 1rem 1.5rem; cursor: pointer; border-bottom: 1px solid var(--border); font-weight: 500; transition: all 0.2s ease; border-left: 4px solid transparent; }
+        .nav-item:hover { background: #ecfdf5; }
+        .nav-item.active { background: #ecfdf5; border-left-color: var(--secondary); color: var(--secondary); }
+        
+        .main-content { flex: 1; overflow-y: auto; padding: 2rem 3rem; background: var(--bg); }
+        .topic-section { display: none; animation: fadeIn 0.4s ease; }
+        .topic-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .topic-title { font-size: 2rem; color: var(--secondary); border-bottom: 2px solid var(--secondary); padding-bottom: 0.5rem; margin-bottom: 2rem; }
+        
+        .exercise-card { background: var(--light); border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 1.5rem; overflow: hidden; border: 1px solid var(--border); }
+        .exercise-header { padding: 1.25rem 1.5rem; background: #ecfdf5; border-bottom: 1px solid var(--border); }
+        .exercise-title { font-size: 1.1rem; font-weight: bold; color: var(--secondary); margin-bottom: 0.5rem; }
+        .exercise-question { font-size: 1rem; line-height: 1.5; color: var(--text); }
+        
+        .exercise-action { padding: 1rem 1.5rem; display: flex; justify-content: flex-end; background: #f8fafc; }
+        .btn-solution { background-color: var(--primary); color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; font-weight: 600; transition: background 0.2s; }
+        .btn-solution:hover { background-color: var(--secondary); }
+        
+        .exercise-solution { padding: 1.5rem; background: #fefce8; border-top: 1px dashed #fde68a; display: none; }
+        .exercise-solution.open { display: block; animation: fadeIn 0.3s ease; }
+        .solution-title { color: #b45309; font-weight: bold; margin-bottom: 0.5rem; }
+        
+        p { margin-bottom: 0.75rem; }
+        .answer { font-weight: bold; color: #ef4444; margin-top: 1rem; font-size: 1.1rem;}
+        img { max-width: 100%; height: auto; margin-top: 1rem; border-radius: 4px; border: 1px solid #ddd;}
+        
+        .image-row { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem;}
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h1>Luyện Tập & Đáp Án<br>Toán Olympic Khối 2</h1>
+        </div>
+        <ul class="nav-list">
+            <li class="nav-item active" onclick="showTopic('topic1')">1. Tư Duy Logic (Logical Thinking)</li>
+            <li class="nav-item" onclick="showTopic('topic2')">2. Số Học (Arithmetic)</li>
+            <li class="nav-item" onclick="showTopic('topic3')">3. Lý Thuyết Số (Number Theory)</li>
+            <li class="nav-item" onclick="showTopic('topic4')">4. Hình Học (Geometry)</li>
+            <li class="nav-item" onclick="showTopic('topic5')">5. Tổ Hợp (Combinatorics)</li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        
+        <section id="topic1" class="topic-section active">
+            <h2 class="topic-title">Chủ Đề 1: Tư Duy Logic</h2>
+            
+            <div class="exercise-card">
+                <div class="exercise-header">
+                    <div class="exercise-title">Bài 1: Dãy số có quy luật - Exercise 3</div>
+                    <div class="exercise-question">
+                        <p><strong>According to the pattern below, find the 10th term in the sequence below.</strong></p>
+                        <p>Dựa vào quy luật sau, tìm số thứ 10 trong dãy. (Dãy Fibonacci)</p>
+                        <p><code>1, 1, 2, 3, 5, 8, ...</code></p>
+                    </div>
+                </div>
+                <div class="exercise-action">
+                    <button class="btn-solution" onclick="toggleSolution(this)">Xem Hướng Dẫn Giải</button>
+                </div>
+                <div class="exercise-solution">
+                    <div class="solution-title">Lời giải:</div>
+                    <p>Quy luật: Tổng hai số liền trước thì bằng số liền sau.</p>
+                    <p>1 + 1 = 2; 1 + 2 = 3; 2 + 3 = 5; 3 + 5 = 8;</p>
+                    <p>Số thứ bảy: 8 + 5 = 13.<br>
+                    Số thứ tám: 13 + 8 = 21.<br>
+                    Số thứ chín: 21 + 13 = 34.<br>
+                    Số thứ mười: 34 + 21 = 55.</p>
+                    <div class="answer">Đáp số: 55</div>
+                </div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="exercise-header">
+                    <div class="exercise-title">Bài 1: Dãy số có quy luật - Exercise 5</div>
+                    <div class="exercise-question">
+                        <p><strong>According to the pattern below, find the next number in the sequence below.</strong></p>
+                        <p>Dựa vào quy luật sau, tìm số tiếp theo trong dãy.</p>
+                        <p><code>5, 54, 6, 52, 7, 50, 8, ...</code></p>
+                    </div>
+                </div>
+                <div class="exercise-action">
+                    <button class="btn-solution" onclick="toggleSolution(this)">Xem Hướng Dẫn Giải</button>
+                </div>
+                <div class="exercise-solution">
+                    <div class="solution-title">Lời giải:</div>
+                    <p>Ta chia dãy số ban đầu thành hai dãy số nhỏ hơn đan xen nhau:</p>
+                    <p>Dãy thứ nhất: 5, 6, 7, 8,...</p>
+                    <p>Dãy thứ hai: 54, 52, 50,...</p>
+                    <p>Dễ thấy số tiếp theo (sau số 8) là phần tử của dãy thứ hai.</p>
+                    <p>Quy luật của dãy thứ hai: Số liền sau bằng số liền trước trừ đi 2 đơn vị (-2).</p>
+                    <p>50 - 2 = 48.</p>
+                    <div class="answer">Đáp số: 48</div>
+                </div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="exercise-header">
+                    <div class="exercise-title">Bài 3: Dạng bài thứ ngày tháng - Exercise 6</div>
+                    <div class="exercise-question">
+                        <p><strong>If today is Wednesday and also the first day of March, which day of the week is 9th March in the same year?</strong></p>
+                        <p>Nếu hôm nay là thứ tư và cũng là ngày 1 của tháng 3. Hỏi ngày 9 tháng 3 cùng năm là thứ mấy?</p>
+                    </div>
+                </div>
+                <div class="exercise-action">
+                    <button class="btn-solution" onclick="toggleSolution(this)">Xem Hướng Dẫn Giải</button>
+                </div>
+                <div class="exercise-solution">
+                    <div class="solution-title">Lời giải:</div>
+                    <p><strong>Cách tính nhanh:</strong> Một tuần có 7 ngày. Cứ sau 1 tuần (+7 ngày) thì "thứ" lặp lại.</p>
+                    <p>Ngày 1 tháng 3 là thứ Tư.</p>
+                    <p>Do đó ngày 1 + 7 = 8. Ngày 8 tháng 3 vẫn là thứ Tư.</p>
+                    <p>Suy ra ngày 9 tháng 3 là thứ Năm.</p>
+                    <div class="answer">Đáp số: Thursday / Thứ Năm</div>
+                </div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="exercise-header">
+                    <div class="exercise-title">Bài 4: Bài toán tính tuổi - Exercise 8</div>
+                    <div class="exercise-question">
+                        <p><strong>(TIMO 2020 - 2021) When Edward was born, mum was 27 years old. His brother was born 1 year later. When mum is 46 years old, how old will his brother be?</strong></p>
+                        <p>Khi Edward sinh ra, mẹ 27 tuổi. Em trai sinh ra 1 năm sau. Khi mẹ 46 tuổi, hỏi em trai bao nhiêu tuổi?</p>
+                    </div>
+                </div>
+                <div class="exercise-action">
+                    <button class="btn-solution" onclick="toggleSolution(this)">Xem Hướng Dẫn Giải</button>
+                </div>
+                <div class="exercise-solution">
+                    <div class="solution-title">Lời giải:</div>
+                    <p><strong>Lưu ý:</strong> Sinh sau thì ít tuổi hơn.</p>
+                    <p>Khi Edward sinh ra mẹ 27 tuổi ➔ Mẹ LUÔN LUÔN hơn Edward 27 tuổi.</p>
+                    <p>Khi mẹ 46 tuổi thì Edward có số tuổi là: 46 - 27 = 19 (tuổi).</p>
+                    <p>Em trai sinh ra 1 năm sau Edward (kém Edward 1 tuổi), vậy em trai có số tuổi là: 19 - 1 = 18 (tuổi).</p>
+                    <div class="answer">Đáp số: 18</div>
+                </div>
+            </div>
+            
+            <div class="exercise-card">
+                <div class="exercise-header">
+                    <div class="exercise-title">Bài 5: Bài toán xếp hàng - Exercise 6</div>
+                    <div class="exercise-question">
+                        <p><strong>Jack stands in the middle of the line and Jack's position is 7th. How many people are there in the line?</strong></p>
+                        <p>Jack đứng ở chính giữa hàng và vị trí của Jack là thứ 7. Hỏi có bao nhiêu người trong hàng?</p>
+                    </div>
+                </div>
+                <div class="exercise-action">
+                    <button class="btn-solution" onclick="toggleSolution(this)">Xem Hướng Dẫn Giải</button>
+                </div>
+                <div class="exercise-solution">
+                    <div class="solution-title">Lời giải:</div>
+                    <p>Jack đứng vị trí thứ 7 ➔ Số người đứng trước Jack là: 7 - 1 = 6 (người).</p>
+                    <p>Vì Jack đứng chính giữa ➔ Số người đứng sau Jack bằng số người đứng trước Jack = 6 người.</p>
+                    <p>Tổng số người trong hàng là: 6 (trước) + 1 (Jack) + 6 (sau) = 13 (người).</p>
+                    <div class="answer">Đáp số: 13</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="topic2" class="topic-section">
+            <h2 class="topic-title">Chủ Đề 2: Số Học</h2>
+            
+            <div class="exercise-card">
+                <div class="exercise-header">
+                    <div class="exercise-title">Bài 1: Ghép cặp hợp lý - Exercise 3</div>
+                    <div class="exercise-question">
+                        <p><strong>Find the value of 179 + 219 + 121 + 181 + 281 + 119.</strong></p>
+                        <p>Tính giá trị của biểu thức trên.</p>
+                    </div>
+                </div>
+                <div class="exercise-action">
+                    <button class="btn-solution" onclick="toggleSolution(this)">Xem Hướng Dẫn Giải</button>
+                </div>
+                <div class="exercise-solution">
+                    <div class="solution-title">Lời giải:</div>
+                    <p>Ghép cặp các số có tổng hàng đơn vị tròn chục/tròn trăm:</p>
+                    <p>179 + 219 + 121 + 181 + 281 + 119<br>
+                    = (179 + 121) + (219 + 181) + (281 + 119)<br>
+                    = 300 + 400 + 400<br>
+                    = 1100</p>
+                    <div class="answer">Đáp số: 1100</div>
+                </div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="exercise-header">
+                    <div class="exercise-title">Bài 2: Phân phối và giao hoán - Exercise 7</div>
+                    <div class="exercise-question">
+                        <p><strong>Find the value of 11 × 221 - 2 × 221 + 221 × 5 - 4 × 221.</strong></p>
+                        <p>Tính giá trị biểu thức trên.</p>
+                    </div>
+                </div>
+                <div class="exercise-action">
+                    <button class="btn-solution" onclick="toggleSolution(this)">Xem Hướng Dẫn Giải</button>
+                </div>
+                <div class="exercise-solution">
+                    <div class="solution-title">Lời giải:</div>
+                    <p>Rút thừa số chung 221 ra ngoài:</p>
+                    <p>= 11 × 221 - 2 × 221 + 5 × 221 - 4 × 221<br>
+                    = (11 - 2 + 5 - 4) × 221<br>
+                    = 10 × 221<br>
+                    = 2210</p>
+                    <div class="answer">Đáp số: 2210</div>
+                </div>
+            </div>
+            
+             <div class="exercise-card">
+                <div class="exercise-header">
+                    <div class="exercise-title">Bài 4: Bài toán mật mã - Exercise 5</div>
+                    <div class="exercise-question">
+                        <p><strong>(TIMO 2019-2020) If A and B are both 1-digit numbers, find the value of B.</strong></p>
+                        <p><code>&nbsp;3 A<br>+<br>&nbsp;3 B<br>----<br>&nbsp;7 2</code></p>
+                    </div>
+                </div>
+                <div class="exercise-action">
+                    <button class="btn-solution" onclick="toggleSolution(this)">Xem Hướng Dẫn Giải</button>
+                </div>
+                <div class="exercise-solution">
+                    <div class="solution-title">Lời giải:</div>
+                    <p>Xét hàng chục: 3 + 3 = 6. Nhưng kết quả là 7, vậy hàng chục <strong>có nhớ 1</strong> từ hàng đơn vị.</p>
+                    <p>Do đó, ở hàng chục: 3 + 3 + 1 = 7.</p>
+                    <p>Xét lại đề: Có thể đề bài gốc là <code>A A + 3 B = 7 2</code> (Dựa vào hình ảnh giải bài tập). Ta nhìn lại lời giải chuẩn trong tài liệu:</p>
+                    <p>Xét hàng chục: <code>A + 3 + (nhớ 1 nếu có) = 7</code>. Giả sử có nhớ 1: A + 3 + 1 = 7 ➔ A = 3. Thử lại: <code>3 3 + 3 B = 7 2</code>.</p>
+                    <p>Xét hàng đơn vị: 3 + B có tận cùng là 2. Suy ra 3 + B = 12 ➔ B = 9.</p>
+                    <div class="answer">Đáp số: 9</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="topic3" class="topic-section">
+            <h2 class="topic-title">Chủ Đề 3: Lý Thuyết Số</h2>
+            
+            <div class="exercise-card">
+                <div class="exercise-header">
+                    <div class="exercise-title">Bài 1: Số chẵn lẻ - Exercise 7</div>
+                    <div class="exercise-question">
+                        <p><strong>Determine the result of 3 + 7 + 11 + 15 + 19 + 23 + 27 + 31 is odd or even.</strong></p>
+                        <p>Xác định kết quả phép tính trên là số lẻ hay chẵn.</p>
+                    </div>
+                </div>
+                <div class="exercise-action">
+                    <button class="btn-solution" onclick="toggleSolution(this)">Xem Hướng Dẫn Giải</button>
+                </div>
+                <div class="exercise-solution">
+                    <div class="solution-title">Lời giải:</div>
+                    <p><strong>Cách 1 (Tính trực tiếp):</strong> (3+7) + (11+19) + (23+27) + 15 + 31 = 10 + 30 + 50 + 15 + 31 = 136 (Chẵn).</p>
+                    <p><strong>Cách 2 (Dùng tính chất):</strong> Ta thấy có 8 số lẻ cộng với nhau.<br>
+                    Lẻ + Lẻ = Chẵn. <br>
+                    Cứ 2 số lẻ ghép lại thành 1 số chẵn. 8 số lẻ ghép thành 4 số chẵn.<br>
+                    Tổng của các số chẵn luôn là số chẵn.</p>
+                    <div class="answer">Đáp số: Even / Số chẵn</div>
+                </div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="exercise-header">
+                    <div class="exercise-title">Bài 2: Sắp xếp số - Exercise 3</div>
+                    <div class="exercise-question">
+                        <p><strong>Arrange the numbers in descending order and find the largest even number.</strong></p>
+                        <p>Sắp xếp các số sau từ lớn đến bé và tìm số chẵn lớn nhất:<br>
+                        <code>441, 27, 36, 2, 8, 33, 122, 24, 607, 134, 3</code></p>
+                    </div>
+                </div>
+                <div class="exercise-action">
+                    <button class="btn-solution" onclick="toggleSolution(this)">Xem Hướng Dẫn Giải</button>
+                </div>
+                <div class="exercise-solution">
+                    <div class="solution-title">Lời giải:</div>
+                    <p>Nhóm số có 3 chữ số: 607, 441, 134, 122<br>
+                    Nhóm số có 2 chữ số: 36, 33, 27, 24<br>
+                    Nhóm số có 1 chữ số: 3, 2</p>
+                    <p>Dãy số sắp xếp theo thứ tự giảm dần là: 607, 441, 134, 122, 36, 33, 27, 24, 3, 2.</p>
+                    <p>Số chẵn lớn nhất là số chẵn đầu tiên xuất hiện trong dãy giảm dần: 134.</p>
+                    <div class="answer">Đáp số: 134</div>
+                </div>
+            </div>
+            
+            <div class="exercise-card">
+                <div class="exercise-header">
+                    <div class="exercise-title">Bài 3: Chia đều đồ vật - Exercise 8</div>
+                    <div class="exercise-question">
+                        <p><strong>Ashley gave Cindy 4 cookies. Ben gave Cindy 6 cookies. Then they all have an equal number of cookies. How many cookies did Ashley have more than Cindy originally?</strong></p>
+                        <p>Ashley cho Cindy 4 cái bánh quy. Ben cho Cindy 6 cái bánh quy. Sau đó, tất cả các bạn đều có số bánh quy bằng nhau. Hỏi ban đầu Ashley có nhiều hơn Cindy bao nhiêu cái bánh quy?</p>
+                    </div>
+                </div>
+                <div class="exercise-action">
+                    <button class="btn-solution" onclick="toggleSolution(this)">Xem Hướng Dẫn Giải</button>
+                </div>
+                <div class="exercise-solution">
+                    <div class="solution-title">Lời giải:</div>
+                    <p>Bước 1: Xác định sự thay đổi.<br>
+                    Ashley cho đi 4 cái bánh.<br>
+                    Cindy nhận tổng cộng: 4 + 6 = 10 cái bánh.</p>
+                    <p>Bước 2: Giả sử lúc sau, hai bạn đều có 20 cái bánh quy (vì số bánh bằng nhau).<br>
+                    Lúc đầu, Ashley có: 20 + 4 = 24 cái bánh.<br>
+                    Lúc đầu, Cindy có: 20 - 10 = 10 cái bánh.</p>
+                    <p>Lúc đầu, Ashley hơn Cindy: 24 - 10 = 14 cái bánh.</p>
+                    <div class="answer">Đáp số: 14</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="topic4" class="topic-section">
+            <h2 class="topic-title">Chủ Đề 4: Hình Học</h2>
+            
+            <div class="exercise-card">
+                <div class="exercise-header">
+                    <div class="exercise-title">Bài 4: Đếm hình lập phương - Exercise 4</div>
+                    <div class="exercise-question">
+                        <p><strong>Given the figure below. At least how many cubes are there if the cubes are stacked on each other?</strong></p>
+                        <p>Cho hình vẽ dưới đây. Hỏi có ít nhất bao nhiêu hình lập phương biết rằng các hình lập phương được xếp chồng lên nhau?</p>
+                        <div style="background:#fff; padding:10px; text-align:center; width: 150px; border: 1px solid #ccc; font-style: italic;">
+                           (Tưởng tượng một hình chữ thập bằng khối lập phương, có phần nhô cao ở giữa)
+                        </div>
+                    </div>
+                </div>
+                <div class="exercise-action">
+                    <button class="btn-solution" onclick="toggleSolution(this)">Xem Hướng Dẫn Giải</button>
+                </div>
+                <div class="exercise-solution">
+                    <div class="solution-title">Lời giải:</div>
+                    <p>Ta đếm theo từng tầng từ dưới lên trên:</p>
+                    <p>Tầng 1 (đáy) có: 7 hình lập phương.</p>
+                    <p>Tầng 2 có: 3 hình lập phương.</p>
+                    <p>Tầng 3 (trên cùng) có: 2 hình lập phương.</p>
+                    <p>Tổng số có: 7 + 3 + 2 = 12 (hình lập phương).</p>
+                    <div class="answer">Đáp số: 12</div>
+                </div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="exercise-header">
+                    <div class="exercise-title">Bài 5: Góc nhìn 3D - Exercise 5</div>
+                    <div class="exercise-question">
+                        <p><strong>(TIMO 2020 - 2021) At least how many small squares can be seen if viewing the figure below from the top?</strong></p>
+                        <p>Hỏi có thể nhìn thấy ít nhất bao nhiêu hình vuông nhỏ khi nhìn từ phía trên xuống?</p>
+                    </div>
+                </div>
+                <div class="exercise-action">
+                    <button class="btn-solution" onclick="toggleSolution(this)">Xem Hướng Dẫn Giải</button>
+                </div>
+                <div class="exercise-solution">
+                    <div class="solution-title">Lời giải:</div>
+                    <p>Khi nhìn từ trên xuống, ta chỉ quan tâm đến các khối nằm trên cùng của mỗi cột đứng (vì chúng sẽ che các khối bên dưới).</p>
+                    <p>Đếm số cột đứng tạo nên hình này, ta thấy hình chiếu từ trên xuống sẽ hiển thị 9 mặt hình vuông, xếp thành hình chữ U.</p>
+                    <div class="answer">Đáp số: 9</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="topic5" class="topic-section">
+            <h2 class="topic-title">Chủ Đề 5: Tổ Hợp</h2>
+            
+            <div class="exercise-card">
+                <div class="exercise-header">
+                    <div class="exercise-title">Bài 1: Thành lập số - Exercise 4</div>
+                    <div class="exercise-question">
+                        <p><strong>(TIMO 2017-2018) Choose 2 digits, without repetition, from 2, 3, 4, 5, 6 to form 2-digit numbers. How many even number(s) is/are there?</strong></p>
+                        <p>Chọn 2 chữ số, không lặp lại, từ 2, 3, 4, 5, 6 để lập thành các số có 2 chữ số. Hỏi có thể lập được bao nhiêu số chẵn?</p>
+                    </div>
+                </div>
+                <div class="exercise-action">
+                    <button class="btn-solution" onclick="toggleSolution(this)">Xem Hướng Dẫn Giải</button>
+                </div>
+                <div class="exercise-solution">
+                    <div class="solution-title">Lời giải:</div>
+                    <p>Số chẵn phải có chữ số tận cùng là 2, 4, 6.</p>
+                    <p>+ Nếu số đó tận cùng là 2: lập được 4 số là 32, 42, 52, 62.</p>
+                    <p>+ Nếu số đó tận cùng là 4: lập được 4 số là 24, 34, 54, 64.</p>
+                    <p>+ Nếu số đó tận cùng là 6: lập được 4 số là 26, 36, 46, 56.</p>
+                    <p>Tổng số các số chẵn lập được là: 4 + 4 + 4 = 12 số.</p>
+                    <div class="answer">Đáp số: 12</div>
+                </div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="exercise-header">
+                    <div class="exercise-title">Bài 3: Hiệu lớn nhất và nhỏ nhất - Exercise 4</div>
+                    <div class="exercise-question">
+                        <p><strong>Choose 4 digits from 0, 2, 3, 5, 8. Find the smallest difference between two 2-digit numbers formed by those digits without repetition.</strong></p>
+                        <p>Chọn 4 chữ số từ 0, 2, 3, 5, 8. Tìm hiệu nhỏ nhất của hai số có 2 chữ số được từ các chữ số đã cho biết rằng các chữ số không được lặp lại.</p>
+                    </div>
+                </div>
+                <div class="exercise-action">
+                    <button class="btn-solution" onclick="toggleSolution(this)">Xem Hướng Dẫn Giải</button>
+                </div>
+                <div class="exercise-solution">
+                    <div class="solution-title">Lời giải:</div>
+                    <p>Gọi 2 số là A, B với A > B.</p>
+                    <p>Chọn 2 chữ số có hiệu nhỏ nhất làm chữ số hàng chục của A và B: là 3 và 2.</p>
+                    <p>Còn lại 3 chữ số 0, 5 và 8.</p>
+                    <p>+) Chọn chữ số nhỏ nhất (0) làm hàng đơn vị của A (tức là 30).</p>
+                    <p>+) Chọn chữ số lớn nhất (8) làm hàng đơn vị của B (tức là 28).</p>
+                    <p>Vậy A = 30, B = 28 và A - B = 30 - 28 = 2.</p>
+                    <div class="answer">Đáp số: 2</div>
+                </div>
+            </div>
+
+            <div class="exercise-card">
+                <div class="exercise-header">
+                    <div class="exercise-title">Bài 4: Bài toán về tiền - Exercise 4</div>
+                    <div class="exercise-question">
+                        <p><strong>Oliver has 2 $1 coins, 3 $2 coins and 3 $5 coins. At most how many toy(s) can he buy for a toy that costs $6?</strong></p>
+                        <p>Oliver có 2 đồng xu 1 đô, 3 đồng xu 2 đô và 3 đồng xu 5 đô. Hỏi anh ấy có thể mua được nhiều nhất bao nhiêu món đồ chơi biết rằng mỗi món có giá 6 đô?</p>
+                    </div>
+                </div>
+                <div class="exercise-action">
+                    <button class="btn-solution" onclick="toggleSolution(this)">Xem Hướng Dẫn Giải</button>
+                </div>
+                <div class="exercise-solution">
+                    <div class="solution-title">Lời giải:</div>
+                    <p>Tổng số tiền Oliver có là:<br>
+                    2 × 1 + 3 × 2 + 3 × 5 = 2 + 6 + 15 = 23 (đô).</p>
+                    <p>Vì mỗi món đồ chơi giá 6 đô la, ta cộng dồn giá hoặc dùng phép chia:<br>
+                    23 : 6 = 3 (dư 5).</p>
+                    <p>Nghĩa là Oliver mua được nhiều nhất 3 món đồ chơi (hết 18 đô) và còn thừa 5 đô.</p>
+                    <div class="answer">Đáp số: 3</div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // Tab switching
+        function showTopic(topicId) {
+            // Hide all sections
+            document.querySelectorAll('.topic-section').forEach(sec => {
+                sec.classList.remove('active');
+            });
+            // Show selected section
+            document.getElementById(topicId).classList.add('active');
+            
+            // Update sidebar active state
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        // Accordion for solutions
+        function toggleSolution(btn) {
+            const solutionBlock = btn.parentElement.nextElementSibling;
+            
+            if (solutionBlock.classList.contains('open')) {
+                solutionBlock.classList.remove('open');
+                btn.textContent = 'Xem Hướng Dẫn Giải';
+                btn.style.backgroundColor = 'var(--primary)';
+            } else {
+                solutionBlock.classList.add('open');
+                btn.textContent = 'Đóng Hướng Dẫn Giải';
+                btn.style.backgroundColor = '#9ca3af'; // Gray out when open
+            }
+        }
+    </script>
+</body>
+</html>

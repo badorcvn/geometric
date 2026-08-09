@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ôn Luyện Lý Thuyết Toán Olympic Khối 2</title>
+    <style>
+        :root {
+            --primary: #1d4ed8;
+            --secondary: #3b82f6;
+            --bg: #f8fafc;
+            --text: #334155;
+            --light: #ffffff;
+            --accent: #f59e0b;
+            --border: #e2e8f0;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg); color: var(--text); display: flex; height: 100vh; overflow: hidden; }
+        
+        /* Sidebar */
+        .sidebar { width: 280px; background: var(--light); border-right: 1px solid var(--border); display: flex; flex-direction: column; overflow-y: auto; }
+        .sidebar-header { padding: 1.5rem; border-bottom: 1px solid var(--border); background: var(--primary); color: white;}
+        .sidebar-header h1 { font-size: 1.2rem; font-weight: bold; line-height: 1.4; }
+        .nav-list { list-style: none; margin: 0; padding: 0; }
+        .nav-item { padding: 1rem 1.5rem; cursor: pointer; border-bottom: 1px solid var(--border); font-weight: 500; transition: all 0.2s ease; border-left: 4px solid transparent; }
+        .nav-item:hover { background: #eff6ff; }
+        .nav-item.active { background: #eff6ff; border-left-color: var(--primary); color: var(--primary); }
+        
+        /* Main Content */
+        .main-content { flex: 1; overflow-y: auto; padding: 2rem 3rem; background: var(--bg); }
+        .topic-section { display: none; animation: fadeIn 0.4s ease; }
+        .topic-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .topic-title { font-size: 2rem; color: var(--primary); border-bottom: 2px solid var(--primary); padding-bottom: 0.5rem; margin-bottom: 2rem; }
+        
+        /* Lesson Cards */
+        .lesson-card { background: var(--light); border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 1.5rem; overflow: hidden; border: 1px solid var(--border); }
+        .lesson-header { padding: 1.25rem 1.5rem; background: #f1f5f9; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: background 0.2s; }
+        .lesson-header:hover { background: #e2e8f0; }
+        .lesson-title { font-size: 1.2rem; font-weight: bold; color: var(--secondary); margin: 0; }
+        .toggle-icon { font-size: 1.5rem; color: var(--secondary); font-weight: bold; }
+        
+        .lesson-body { padding: 1.5rem; display: none; }
+        .lesson-body.open { display: block; animation: fadeIn 0.3s ease; }
+        
+        /* Content Elements */
+        h4 { margin-top: 1rem; margin-bottom: 0.5rem; color: var(--text); font-size: 1.1rem; }
+        p { line-height: 1.6; margin-bottom: 1rem; }
+        ul { margin-left: 1.5rem; margin-bottom: 1rem; line-height: 1.6; }
+        
+        .vocab-table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; background: white; }
+        .vocab-table th, .vocab-table td { border: 1px solid var(--border); padding: 0.75rem; text-align: left; }
+        .vocab-table th { background: #f8fafc; font-weight: 600; color: var(--primary); width: 50%; }
+        
+        .method-box { background: #fffbeb; border-left: 4px solid var(--accent); padding: 1.25rem; border-radius: 0 8px 8px 0; margin-bottom: 1rem; }
+        .method-box h4 { color: #b45309; margin-top: 0; margin-bottom: 0.5rem; font-weight: bold; }
+        .method-box p:last-child, .method-box ul:last-child { margin-bottom: 0; }
+        
+        /* Utility */
+        .highlight { font-weight: bold; color: #ef4444; }
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h1>Cẩm Nang Lý Thuyết<br>Toán Olympic Khối 2</h1>
+        </div>
+        <ul class="nav-list">
+            <li class="nav-item active" onclick="showTopic('topic1')">1. Tư Duy Logic (Logical Thinking)</li>
+            <li class="nav-item" onclick="showTopic('topic2')">2. Số Học (Arithmetic)</li>
+            <li class="nav-item" onclick="showTopic('topic3')">3. Lý Thuyết Số (Number Theory)</li>
+            <li class="nav-item" onclick="showTopic('topic4')">4. Hình Học (Geometry)</li>
+            <li class="nav-item" onclick="showTopic('topic5')">5. Tổ Hợp (Combinatorics)</li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <!-- TOPIC 1 -->
+        <section id="topic1" class="topic-section active">
+            <h2 class="topic-title">Chủ Đề 1: Tư Duy Logic (Logical Thinking)</h2>
+            
+            <div class="lesson-card">
+                <div class="lesson-header" onclick="toggleLesson(this)">
+                    <h3 class="lesson-title">Bài 1 & 2: Dãy số và Dãy hình có quy luật</h3>
+                    <span class="toggle-icon">+</span>
+                </div>
+                <div class="lesson-body">
+                    <table class="vocab-table">
+                        <tr><th>Từ vựng (English)</th><th>Nghĩa tiếng Việt</th></tr>
+                        <tr><td>Sequence</td><td>Dãy</td></tr>
+                        <tr><td>Pattern</td><td>Quy luật</td></tr>
+                        <tr><td>Term / Figure / Symbol</td><td>Số hạng / Hình vẽ / Ký hiệu</td></tr>
+                    </table>
+                    <div class="method-box">
+                        <h4>Cách làm tổng quát (General Method)</h4>
+                        <ul>
+                            <li><strong>Dãy số:</strong> Xét hiệu hai số liên tiếp, tổng hai số liên tiếp, hoặc chia dãy số ban đầu thành hai dãy số đan xen nhau.</li>
+                            <li><strong>Dãy hình:</strong> Tìm ra quy luật lặp lại (đếm hình tới khi nào quy luật đó bắt đầu lặp lại từ đầu). Liệt kê hoặc chia thành các nhóm để tìm hình/tính số lượng.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lesson-card">
+                <div class="lesson-header" onclick="toggleLesson(this)">
+                    <h3 class="lesson-title">Bài 3: Dạng bài thứ ngày tháng (Date Problem)</h3>
+                    <span class="toggle-icon">+</span>
+                </div>
+                <div class="lesson-body">
+                    <table class="vocab-table">
+                        <tr><th>Từ vựng (English)</th><th>Nghĩa tiếng Việt</th></tr>
+                        <tr><td>Yesterday / Today / Tomorrow</td><td>Hôm qua / Hôm nay / Ngày mai</td></tr>
+                        <tr><td>The day before yesterday</td><td>Hôm kia</td></tr>
+                        <tr><td>The day after tomorrow</td><td>Ngày kia</td></tr>
+                        <tr><td>Later / After / Ago / Before</td><td>Sau / Trước</td></tr>
+                        <tr><td>Leap year</td><td>Năm nhuận</td></tr>
+                    </table>
+                    <div class="method-box">
+                        <h4>Cách làm tổng quát (General Method)</h4>
+                        <p>Xác định rõ đề bài hỏi ngày trước (ago/before) hay ngày sau (later/after).</p>
+                        <ul>
+                            <li>Cứ <strong>+7 ngày</strong> (hoặc <strong>-7 ngày</strong>) thì thứ trong tuần sẽ lặp lại nguyên vẹn.</li>
+                            <li>Sử dụng trục thời gian: Hôm kia (-2) ➔ Hôm qua (-1) ➔ Hôm nay (0) ➔ Ngày mai (+1) ➔ Ngày kia (+2).</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lesson-card">
+                <div class="lesson-header" onclick="toggleLesson(this)">
+                    <h3 class="lesson-title">Bài 4: Bài toán tính tuổi (Age Problem)</h3>
+                    <span class="toggle-icon">+</span>
+                </div>
+                <div class="lesson-body">
+                    <table class="vocab-table">
+                        <tr><th>Từ vựng (English)</th><th>Nghĩa tiếng Việt</th></tr>
+                        <tr><td>Older / Younger</td><td>Già hơn (nhiều tuổi) / Trẻ hơn (ít tuổi)</td></tr>
+                        <tr><td>The same age as / Equal to</td><td>Bằng tuổi / Bằng</td></tr>
+                    </table>
+                    <div class="method-box">
+                        <h4>Cách làm tổng quát (General Method)</h4>
+                        <ul>
+                            <li><strong>Quy tắc cốt lõi:</strong> Hiệu số tuổi của 2 người luôn <span class="highlight">không đổi theo thời gian</span>.</li>
+                            <li>Quy về tính số tuổi của từng người ở một thời điểm phù hợp, hoặc quy về tính hiệu số tuổi, sau đó mới tính tuổi tại thời điểm đề bài yêu cầu.</li>
+                            <li><em>Mẹo:</em> Sinh sau thì ít tuổi hơn; sinh trước thì nhiều tuổi hơn. Khi một người sinh ra, tuổi của mẹ/cha chính là hiệu số tuổi giữa 2 người.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lesson-card">
+                <div class="lesson-header" onclick="toggleLesson(this)">
+                    <h3 class="lesson-title">Bài 5: Bài toán xếp hàng (Line Forming)</h3>
+                    <span class="toggle-icon">+</span>
+                </div>
+                <div class="lesson-body">
+                    <table class="vocab-table">
+                        <tr><th>Từ vựng (English)</th><th>Nghĩa tiếng Việt</th></tr>
+                        <tr><td>Line up / Row / Line</td><td>Xếp hàng / Hàng</td></tr>
+                        <tr><td>In front of / Behind</td><td>Phía trước / Phía sau</td></tr>
+                        <tr><td>In the middle of</td><td>Chính giữa</td></tr>
+                        <tr><td>Position</td><td>Vị trí</td></tr>
+                    </table>
+                    <div class="method-box">
+                        <h4>Cách làm tổng quát (General Method)</h4>
+                        <ul>
+                            <li>Vị trí trong hàng = Số người đứng trước + 1</li>
+                            <li>Vị trí = Tổng số người - Số người đứng sau</li>
+                            <li>Số người đứng giữa 2 người = Vị trí lớn - Vị trí nhỏ - 1</li>
+                            <li>Tổng số người = Số người đứng trước + Số người đứng sau + 1 (chính mình)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TOPIC 2 -->
+        <section id="topic2" class="topic-section">
+            <h2 class="topic-title">Chủ Đề 2: Số Học (Arithmetic)</h2>
+            
+            <div class="lesson-card">
+                <div class="lesson-header" onclick="toggleLesson(this)">
+                    <h3 class="lesson-title">Bài 1 & 2: Ghép cặp hợp lý & Tính chất phân phối</h3>
+                    <span class="toggle-icon">+</span>
+                </div>
+                <div class="lesson-body">
+                    <table class="vocab-table">
+                        <tr><th>Từ vựng (English)</th><th>Nghĩa tiếng Việt</th></tr>
+                        <tr><td>Distribution property</td><td>Tính chất phân phối</td></tr>
+                        <tr><td>Commutative property</td><td>Tính chất giao hoán</td></tr>
+                        <tr><td>Multiplication</td><td>Phép nhân</td></tr>
+                    </table>
+                    <div class="method-box">
+                        <h4>Cách làm tổng quát (General Method)</h4>
+                        <ul>
+                            <li><strong>Ghép cặp:</strong> Thay đổi vị trí các số (giữ nguyên dấu phía trước nó) để ghép thành các số tròn chục, tròn trăm. Các cặp hàng đơn vị thường gặp: (1,9); (2,8); (3,7); (4,6); (5,5).</li>
+                            <li><strong>Phân phối:</strong> Rút thừa số chung ra ngoài ngoặc: <code>a × b + a × c = a × (b + c)</code> hoặc <code>a × b - a × c = a × (b - c)</code>.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lesson-card">
+                <div class="lesson-header" onclick="toggleLesson(this)">
+                    <h3 class="lesson-title">Bài 3: Cân bằng phép tính (Balance on Equation)</h3>
+                    <span class="toggle-icon">+</span>
+                </div>
+                <div class="lesson-body">
+                    <table class="vocab-table">
+                        <tr><th>Từ vựng (English)</th><th>Nghĩa tiếng Việt</th></tr>
+                        <tr><td>Equation</td><td>Phép tính / Phương trình</td></tr>
+                        <tr><td>Left side / Right side</td><td>Vế trái / Vế phải</td></tr>
+                    </table>
+                    <div class="method-box">
+                        <h4>Cách làm tổng quát (General Method)</h4>
+                        <p>Tính giá trị của vế đã biết đầy đủ các số trước. Sau đó dùng kết quả này để tìm số chưa biết ở vế còn lại bằng cách xác định vai trò của nó (số hạng, số bị trừ, số trừ, v.v.).</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lesson-card">
+                <div class="lesson-header" onclick="toggleLesson(this)">
+                    <h3 class="lesson-title">Bài 4: Bài toán mật mã (Cryptarithm)</h3>
+                    <span class="toggle-icon">+</span>
+                </div>
+                <div class="lesson-body">
+                    <div class="method-box">
+                        <h4>Cách làm tổng quát (General Method)</h4>
+                        <ul>
+                            <li>Đặt phép tính theo <strong>hàng dọc</strong>.</li>
+                            <li>Xét từng hàng từ phải sang trái (đơn vị ➔ chục ➔ trăm).</li>
+                            <li>Luôn chia thành 2 trường hợp: <strong>Có nhớ</strong> hoặc <strong>Không nhớ</strong> để tìm chữ số phù hợp.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TOPIC 3 -->
+        <section id="topic3" class="topic-section">
+            <h2 class="topic-title">Chủ Đề 3: Lý Thuyết Số (Number Theory)</h2>
+            
+            <div class="lesson-card">
+                <div class="lesson-header" onclick="toggleLesson(this)">
+                    <h3 class="lesson-title">Bài 1: Số lẻ và số chẵn (Odd and Even Numbers)</h3>
+                    <span class="toggle-icon">+</span>
+                </div>
+                <div class="lesson-body">
+                    <table class="vocab-table">
+                        <tr><th>Từ vựng (English)</th><th>Nghĩa tiếng Việt</th></tr>
+                        <tr><td>Odd number</td><td>Số lẻ</td></tr>
+                        <tr><td>Even number</td><td>Số chẵn</td></tr>
+                    </table>
+                    <div class="method-box">
+                        <h4>Cách làm tổng quát (General Method)</h4>
+                        <ul>
+                            <li>Nhìn vào <strong>chữ số tận cùng</strong> của số đó.</li>
+                            <li>Tận cùng là 0, 2, 4, 6, 8 ➔ Số chẵn.</li>
+                            <li>Tận cùng là 1, 3, 5, 7, 9 ➔ Số lẻ.</li>
+                            <li><strong>Tính chất:</strong> Chẵn + Chẵn = Chẵn; Lẻ + Lẻ = Chẵn; Chẵn + Lẻ = Lẻ.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lesson-card">
+                <div class="lesson-header" onclick="toggleLesson(this)">
+                    <h3 class="lesson-title">Bài 2: Sắp xếp số theo thứ tự (Arranging numbers)</h3>
+                    <span class="toggle-icon">+</span>
+                </div>
+                <div class="lesson-body">
+                    <table class="vocab-table">
+                        <tr><th>Từ vựng (English)</th><th>Nghĩa tiếng Việt</th></tr>
+                        <tr><td>Ascending order</td><td>Thứ tự tăng dần (Bé đến lớn)</td></tr>
+                        <tr><td>Descending order</td><td>Thứ tự giảm dần (Lớn đến bé)</td></tr>
+                    </table>
+                    <div class="method-box">
+                        <h4>Cách làm tổng quát (General Method)</h4>
+                        <ol>
+                            <li>Chia các số thành các nhóm dựa trên <strong>số lượng chữ số</strong> (nhóm 1 chữ số, nhóm 2 chữ số...).</li>
+                            <li>Trong cùng một nhóm, so sánh từ chữ số hàng cao nhất (trái sang phải). Số nào có chữ số lớn hơn thì lớn hơn.</li>
+                            <li>Sắp xếp các nhóm lại với nhau.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lesson-card">
+                <div class="lesson-header" onclick="toggleLesson(this)">
+                    <h3 class="lesson-title">Bài 3: Chia đều đồ vật (Mathematical Leveling)</h3>
+                    <span class="toggle-icon">+</span>
+                </div>
+                <div class="lesson-body">
+                    <table class="vocab-table">
+                        <tr><th>Từ vựng (English)</th><th>Nghĩa tiếng Việt</th></tr>
+                        <tr><td>Separate / Divide</td><td>Chia</td></tr>
+                        <tr><td>Equally / Evenly</td><td>Chia đều / Bằng nhau</td></tr>
+                    </table>
+                    <div class="method-box">
+                        <h4>Cách làm tổng quát (General Method)</h4>
+                        <ul>
+                            <li><strong>Cách 1 (Dùng Tổng):</strong> Tính tổng số đồ vật, sau đó chia làm 2 (hoặc n) phần bằng nhau. Lấy số đồ vật ban đầu trừ đi số đồ vật lúc sau để ra số cần chuyển.</li>
+                            <li><strong>Cách 2 (Dùng Hiệu):</strong> Tính số lượng chênh lệch (hiệu). Số đồ vật cần chuyển cho nhau luôn bằng <strong>một nửa</strong> của hiệu.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TOPIC 4 -->
+        <section id="topic4" class="topic-section">
+            <h2 class="topic-title">Chủ Đề 4: Hình Học (Geometry)</h2>
+            
+            <div class="lesson-card">
+                <div class="lesson-header" onclick="toggleLesson(this)">
+                    <h3 class="lesson-title">Bài 1, 2 & 3: Đếm hình và đếm đoạn thẳng</h3>
+                    <span class="toggle-icon">+</span>
+                </div>
+                <div class="lesson-body">
+                    <table class="vocab-table">
+                        <tr><th>Từ vựng (English)</th><th>Nghĩa tiếng Việt</th></tr>
+                        <tr><td>Square / Triangle</td><td>Hình vuông / Hình tam giác</td></tr>
+                        <tr><td>Line segment</td><td>Đoạn thẳng</td></tr>
+                    </table>
+                    <div class="method-box">
+                        <h4>Cách làm tổng quát (General Method)</h4>
+                        <ul>
+                            <li><strong>Đếm hình vuông/tam giác:</strong> Đánh số các hình đơn vị. Đếm số hình đơn, sau đó đếm các hình được ghép bởi 2, 3, 4... hình đơn vị lại với nhau. Cộng tất cả.</li>
+                            <li><strong>Đếm đoạn thẳng:</strong> Đếm số đoạn thẳng không có điểm nằm giữa, rồi đếm số đoạn thẳng có 1 điểm, 2 điểm nằm giữa... rồi cộng lại.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lesson-card">
+                <div class="lesson-header" onclick="toggleLesson(this)">
+                    <h3 class="lesson-title">Bài 4 & 5: Đếm khối lập phương 3D và Góc nhìn</h3>
+                    <span class="toggle-icon">+</span>
+                </div>
+                <div class="lesson-body">
+                    <table class="vocab-table">
+                        <tr><th>Từ vựng (English)</th><th>Nghĩa tiếng Việt</th></tr>
+                        <tr><td>Cube / Stack</td><td>Hình lập phương / Xếp chồng</td></tr>
+                        <tr><td>Front / Back face</td><td>Mặt trước / Mặt sau</td></tr>
+                        <tr><td>Top / Bottom face</td><td>Mặt trên / Mặt dưới</td></tr>
+                        <tr><td>Left / Right side face</td><td>Mặt trái / Mặt phải</td></tr>
+                    </table>
+                    <div class="method-box">
+                        <h4>Cách làm tổng quát (General Method)</h4>
+                        <ul>
+                            <li><strong>Đếm khối:</strong> Có thể đếm những khối nhìn thấy rồi cộng thêm những khối bị che khuất bên dưới, hoặc chia hình theo từng <strong>tầng</strong> (Tầng 1, 2, 3...) để đếm cho khỏi sót.</li>
+                            <li><strong>Góc nhìn 3D:</strong> Khi nhìn từ một hướng, hình chiếu 2D sẽ là tổng hợp bề mặt của các khối. Chú ý các khối phía trước sẽ che khuất khối phía sau ở cùng vị trí. Tính đối xứng: Số mặt trái = phải; mặt trước = sau; mặt trên = dưới.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TOPIC 5 -->
+        <section id="topic5" class="topic-section">
+            <h2 class="topic-title">Chủ Đề 5: Tổ Hợp (Combinatorics)</h2>
+            
+            <div class="lesson-card">
+                <div class="lesson-header" onclick="toggleLesson(this)">
+                    <h3 class="lesson-title">Bài 1: Thành lập số (Number Formation)</h3>
+                    <span class="toggle-icon">+</span>
+                </div>
+                <div class="lesson-body">
+                    <table class="vocab-table">
+                        <tr><th>Từ vựng (English)</th><th>Nghĩa tiếng Việt</th></tr>
+                        <tr><td>Digit</td><td>Chữ số (0, 1, 2... 9)</td></tr>
+                        <tr><td>Without repetition</td><td>Không lặp lại</td></tr>
+                    </table>
+                    <div class="method-box">
+                        <h4>Cách làm tổng quát (General Method)</h4>
+                        <ul>
+                            <li>Muốn tạo số <strong>lớn nhất/nhỏ nhất</strong>: Ưu tiên chọn các chữ số từ trái qua phải (từ hàng cao nhất). Chữ số đầu tiên không được là số 0.</li>
+                            <li>Muốn tạo số <strong>chẵn/lẻ</strong>: Phải ưu tiên chọn chữ số ở hàng đơn vị trước để thỏa mãn điều kiện chẵn/lẻ, sau đó mới xếp các hàng còn lại.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lesson-card">
+                <div class="lesson-header" onclick="toggleLesson(this)">
+                    <h3 class="lesson-title">Bài 2 & 3: Tổng và Hiệu lớn nhất/nhỏ nhất</h3>
+                    <span class="toggle-icon">+</span>
+                </div>
+                <div class="lesson-body">
+                    <table class="vocab-table">
+                        <tr><th>Từ vựng (English)</th><th>Nghĩa tiếng Việt</th></tr>
+                        <tr><td>Sum / Difference</td><td>Tổng / Hiệu</td></tr>
+                        <tr><td>Largest / Smallest</td><td>Lớn nhất / Nhỏ nhất</td></tr>
+                    </table>
+                    <div class="method-box">
+                        <h4>Cách làm tổng quát (General Method)</h4>
+                        <ul>
+                            <li><strong>Tổng nhỏ nhất:</strong> Chọn các chữ số nhỏ nhất (khác 0) làm hàng chục. Các chữ số nhỏ tiếp theo làm hàng đơn vị.</li>
+                            <li><strong>Tổng lớn nhất:</strong> Chọn các chữ số lớn nhất làm hàng chục. Các chữ số lớn tiếp theo làm hàng đơn vị.</li>
+                            <li><strong>Hiệu lớn nhất:</strong> Lấy Số lớn nhất có thể trừ đi Số nhỏ nhất có thể.</li>
+                            <li><strong>Hiệu nhỏ nhất:</strong> Gọi 2 số là A và B. Chọn 2 chữ số có hiệu nhỏ nhất làm hàng chục (chữ số lớn cho A, nhỏ cho B). Với hàng đơn vị, chọn chữ số nhỏ nhất cho A và lớn nhất cho B.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lesson-card">
+                <div class="lesson-header" onclick="toggleLesson(this)">
+                    <h3 class="lesson-title">Bài 4: Các bài toán về tiền (Money word problems)</h3>
+                    <span class="toggle-icon">+</span>
+                </div>
+                <div class="lesson-body">
+                    <div class="method-box">
+                        <h4>Cách làm tổng quát (General Method)</h4>
+                        <ul>
+                            <li>Đếm tổng số tiền đang có.</li>
+                            <li>Nếu mua không nhận tiền thừa, tiến hành liệt kê tất cả các cách kết hợp mệnh giá đồng xu.</li>
+                            <li>Nếu mua nhiều nhất số đồ vật, lấy tổng số tiền chia cho giá 1 đồ vật (hoặc dùng phép cộng dồn giá tiền cho tới khi không đủ để cộng thêm).</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // Tab switching
+        function showTopic(topicId) {
+            // Hide all sections
+            document.querySelectorAll('.topic-section').forEach(sec => {
+                sec.classList.remove('active');
+            });
+            // Show selected section
+            document.getElementById(topicId).classList.add('active');
+            
+            // Update sidebar active state
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        // Accordion for lessons
+        function toggleLesson(element) {
+            const body = element.nextElementSibling;
+            const icon = element.querySelector('.toggle-icon');
+            
+            if (body.classList.contains('open')) {
+                body.classList.remove('open');
+                icon.textContent = '+';
+            } else {
+                body.classList.add('open');
+                icon.textContent = '-';
+            }
+        }
+    </script>
+</body>
+</html>
