@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ôn tập Olympic Toán Khối 2 – Trực quan & Tương tác</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent2: #22c55e;
+      --danger: #f87171;
+      --border: #334155;
+      --sidebar-w: 280px;
+    }
+    [data-theme="light"] {
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --accent: #0284c7;
+      --accent2: #16a34a;
+      --danger: #dc2626;
+      --border: #e2e8f0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+    }
+    /* Sidebar */
+    .sidebar {
+      width: var(--sidebar-w);
+      background: var(--card);
+      border-right: 1px solid var(--border);
+      height: 100vh;
+      position: fixed;
+      overflow-y: auto;
+      padding: 1.25rem;
+      transition: transform 0.3s;
+      z-index: 50;
+    }
+    .sidebar h1 {
+      font-size: 1.15rem;
+      margin-bottom: 0.25rem;
+      color: var(--accent);
+    }
+    .sidebar .sub {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+    }
+    .nav-topic {
+      margin-bottom: 1rem;
+    }
+    .nav-topic > button {
+      width: 100%;
+      text-align: left;
+      background: transparent;
+      border: none;
+      color: var(--text);
+      font-weight: 600;
+      padding: 0.5rem 0.6rem;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .nav-topic > button:hover { background: rgba(56,189,248,0.1); }
+    .nav-lessons {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      padding-left: 0.5rem;
+    }
+    .nav-topic.open .nav-lessons { max-height: 400px; }
+    .nav-lessons a {
+      display: block;
+      padding: 0.4rem 0.6rem;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      border-radius: 6px;
+    }
+    .nav-lessons a:hover, .nav-lessons a.active {
+      color: var(--accent);
+      background: rgba(56,189,248,0.08);
+    }
+    /* Main */
+    .main {
+      margin-left: var(--sidebar-w);
+      flex: 1;
+      padding: 1.5rem 2rem 3rem;
+      max-width: 960px;
+    }
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .topbar h2 { font-size: 1.5rem; }
+    .btn {
+      background: var(--accent);
+      color: #0f172a;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    .btn:hover { filter: brightness(1.1); }
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+    .btn-sm { padding: 0.3rem 0.7rem; font-size: 0.8rem; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+    .card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 0.75rem;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .vocab-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+    }
+    .vocab-table th, .vocab-table td {
+      border: 1px solid var(--border);
+      padding: 0.5rem 0.75rem;
+      text-align: left;
+    }
+    .vocab-table th { background: rgba(56,189,248,0.1); }
+    .method-box {
+      background: rgba(34,197,94,0.08);
+      border-left: 4px solid var(--accent2);
+      padding: 0.9rem 1rem;
+      border-radius: 0 8px 8px 0;
+      margin: 0.75rem 0;
+    }
+    .example-box {
+      background: rgba(56,189,248,0.06);
+      border: 1px dashed var(--accent);
+      padding: 1rem;
+      border-radius: 8px;
+      margin: 0.75rem 0;
+    }
+    .quiz-box {
+      background: rgba(248,113,113,0.06);
+      border: 1px solid rgba(248,113,113,0.3);
+      padding: 1rem;
+      border-radius: 8px;
+      margin-top: 1rem;
+    }
+    .quiz-box input[type="text"], .quiz-box input[type="number"] {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.4rem 0.6rem;
+      border-radius: 6px;
+      width: 120px;
+      margin-right: 0.5rem;
+    }
+    .feedback { margin-top: 0.5rem; font-weight: 600; }
+    .feedback.ok { color: var(--accent2); }
+    .feedback.err { color: var(--danger); }
+    .tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      background: rgba(56,189,248,0.15);
+      color: var(--accent);
+      margin-left: 0.4rem;
+    }
+    .sequence-visual {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin: 0.75rem 0;
+      font-size: 1.4rem;
+    }
+    .seq-item {
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg);
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      font-weight: 700;
+    }
+    .geo-grid {
+      display: inline-grid;
+      gap: 2px;
+      background: var(--border);
+      padding: 2px;
+      margin: 0.75rem 0;
+    }
+    .geo-cell {
+      width: 36px;
+      height: 36px;
+      background: var(--card);
+    }
+    .hidden { display: none; }
+    .progress-bar {
+      height: 6px;
+      background: var(--border);
+      border-radius: 3px;
+      margin-top: 0.5rem;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--accent2);
+      width: 0%;
+      transition: width 0.4s;
+    }
+    footer {
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    /* Mobile */
+    .menu-btn {
+      display: none;
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      z-index: 60;
+      background: var(--accent);
+      border: none;
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+    @media (max-width: 860px) {
+      .sidebar { transform: translateX(-100%); }
+      .sidebar.open { transform: translateX(0); }
+      .main { margin-left: 0; padding: 1rem; }
+      .menu-btn { display: block; }
+    }
+  </style>
+</head>
+<body>
+  <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+
+  <aside class="sidebar" id="sidebar">
+    <h1>Olympic Toán Khối 2</h1>
+    <div class="sub">Ôn tập trực quan • Tương tác</div>
+
+    <div class="nav-topic open">
+      <button onclick="toggleTopic(this)">1. Tư duy Logic ▾</button>
+      <div class="nav-lessons">
+        <a href="#t1l1" class="active">Dãy số & dãy chữ</a>
+        <a href="#t1l2">Dãy hình có quy luật</a>
+        <a href="#t1l3">Thứ ngày tháng</a>
+        <a href="#t1l4">Bài toán tính tuổi</a>
+        <a href="#t1l5">Xếp hàng</a>
+      </div>
+    </div>
+
+    <div class="nav-topic">
+      <button onclick="toggleTopic(this)">2. Số học ▾</button>
+      <div class="nav-lessons">
+        <a href="#t2l1">Ghép cặp hợp lý</a>
+        <a href="#t2l2">Tính chất nhân</a>
+        <a href="#t2l3">Cân bằng phép tính</a>
+        <a href="#t2l4">Mật mã số (Cryptarithm)</a>
+      </div>
+    </div>
+
+    <div class="nav-topic">
+      <button onclick="toggleTopic(this)">3. Lý thuyết số ▾</button>
+      <div class="nav-lessons">
+        <a href="#t3l1">Số lẻ & số chẵn</a>
+        <a href="#t3l2">Sắp xếp số</a>
+        <a href="#t3l3">Chia đều đồ vật</a>
+      </div>
+    </div>
+
+    <div class="nav-topic">
+      <button onclick="toggleTopic(this)">4. Hình học ▾</button>
+      <div class="nav-lessons">
+        <a href="#t4l1">Đếm hình vuông</a>
+        <a href="#t4l2">Đếm hình tam giác</a>
+        <a href="#t4l3">Đếm đoạn thẳng</a>
+      </div>
+    </div>
+
+    <div class="nav-topic">
+      <button onclick="toggleTopic(this)">5. Tổ hợp ▾</button>
+      <div class="nav-lessons">
+        <a href="#t5l1">Thành lập số</a>
+        <a href="#t5l2">Tổng / Hiệu lớn nhất – nhỏ nhất</a>
+      </div>
+    </div>
+
+    <div style="margin-top:1.5rem;">
+      <button class="btn btn-outline btn-sm" onclick="toggleTheme()">🌓 Đổi giao diện</button>
+      <div class="progress-bar" style="margin-top:0.75rem;">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <div style="font-size:0.75rem;color:var(--muted);margin-top:0.25rem;" id="progressText">0% hoàn thành</div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <h2 id="pageTitle">Chào mừng ôn tập Olympic Toán Khối 2</h2>
+      <button class="btn btn-outline btn-sm" onclick="resetProgress()">Reset tiến độ</button>
+    </div>
+
+    <!-- INTRO -->
+    <section id="intro" class="card">
+      <h3>📘 Hướng dẫn sử dụng</h3>
+      <p>File này được thiết kế để bạn ôn tập <strong>trực quan và tương tác</strong> các dạng bài thường gặp trong các kỳ thi Olympic Toán quốc tế dành cho học sinh khối 2 (TIMO, HKIMO, BBB, PIMSO, FMO…).</p>
+      <ul style="margin:0.75rem 0 0 1.25rem;">
+        <li>Click vào từng bài ở sidebar bên trái để chuyển nội dung.</li>
+        <li>Đọc <strong>Phương pháp</strong> → làm <strong>Bài tập tương tác</strong> → bấm Kiểm tra.</li>
+        <li>Tiến độ được lưu tự động trên trình duyệt của bạn.</li>
+      </ul>
+      <p style="margin-top:0.75rem;font-size:0.9rem;color:var(--muted);">Lưu ý: Đây là tài liệu ôn tập gốc, không sao chép nội dung từ bất kỳ sách nào. Các ví dụ và bài tập đều được viết mới.</p>
+    </section>
+
+    <!-- ==================== TOPIC 1 ==================== -->
+    <section id="t1l1" class="card hidden">
+      <h3>1.1 Dãy số & dãy chữ có quy luật <span class="tag">Logic</span></h3>
+
+      <h4>Từ vựng</h4>
+      <table class="vocab-table">
+        <tr><th>English</th><th>Tiếng Việt</th></tr>
+        <tr><td>Sequence</td><td>Dãy</td></tr>
+        <tr><td>Pattern / Rule</td><td>Quy luật</td></tr>
+        <tr><td>Term</td><td>Số hạng / Hạng tử</td></tr>
+        <tr><td>Next term</td><td>Số hạng tiếp theo</td></tr>
+      </table>
+
+      <div class="method-box">
+        <strong>Phương pháp tìm quy luật:</strong><br>
+        1. Xem hiệu (hoặc tổng) giữa các số liên tiếp.<br>
+        2. Nếu hiệu thay đổi đều → đó là quy luật cộng/trừ tăng dần.<br>
+        3. Nếu dãy “nhảy cóc” → tách thành 2 dãy đan xen.<br>
+        4. Với chữ cái: viết bảng chữ cái A–Z rồi đếm khoảng cách.
+      </div>
+
+      <div class="example-box">
+        <strong>Ví dụ minh họa (gốc):</strong><br>
+        Dãy: 3, 7, 11, 15, … → mỗi số sau = số trước + 4 → số tiếp theo = 19.<br>
+        Dãy: 2, 9, 3, 8, 4, 7, … → tách thành (2,3,4,…) và (9,8,7,…) → số tiếp theo = 5.
+      </div>
+
+      <div class="quiz-box">
+        <strong>Bài tập tương tác 1:</strong> Tìm số hạng thứ 6 của dãy: 5, 9, 13, 17, 21, …
+        <br><br>
+        <input type="number" id="q1_1" placeholder="Đáp án">
+        <button class="btn btn-sm" onclick="check(1,1,25)">Kiểm tra</button>
+        <div class="feedback" id="f1_1"></div>
+      </div>
+
+      <div class="quiz-box">
+        <strong>Bài tập tương tác 2:</strong> Dãy: 1, 18, 2, 17, 3, 16, 4, … Số tiếp theo là?
+        <br><br>
+        <input type="number" id="q1_2" placeholder="Đáp án">
+        <button class="btn btn-sm" onclick="check(1,2,15)">Kiểm tra</button>
+        <div class="feedback" id="f1_2"></div>
+      </div>
+    </section>
+
+    <section id="t1l2" class="card hidden">
+      <h3>1.2 Dãy hình có quy luật <span class="tag">Logic</span></h3>
+      <div class="method-box">
+        • Tìm chu kỳ lặp lại (nhóm bao nhiêu hình thì lặp).<br>
+        • Đếm số hình trong mỗi nhóm → tính vị trí thứ n bằng phép chia lấy dư.
+      </div>
+      <div class="example-box">
+        Quy luật: ● □ ▲ ● □ ▲ … → chu kỳ 3.<br>
+        Hình thứ 10: 10 ÷ 3 = 3 dư 1 → cùng loại với hình đầu tiên (●).
+      </div>
+      <div class="quiz-box">
+        <strong>Bài tập:</strong> Dãy: ★ ○ □ ★ ○ □ ★ ○ … Hình thứ 14 là gì? (nhập: star / circle / square)
+        <br><br>
+        <input type="text" id="q1_3" placeholder="star / circle / square">
+        <button class="btn btn-sm" onclick="checkText(1,3,'circle')">Kiểm tra</button>
+        <div class="feedback" id="f1_3"></div>
+      </div>
+    </section>
+
+    <section id="t1l3" class="card hidden">
+      <h3>1.3 Bài toán thứ ngày tháng <span class="tag">Logic</span></h3>
+      <div class="method-box">
+        • 1 tuần = 7 ngày → cộng/trừ 7 ngày thì thứ không đổi.<br>
+        • Xác định rõ “hôm nay / ngày mai / hôm qua” rồi đếm xuôi hoặc ngược.
+      </div>
+      <div class="quiz-box">
+        Hôm nay là thứ Tư. 10 ngày nữa là thứ mấy? (nhập: Monday / Tuesday / … / Sunday)
+        <br><br>
+        <input type="text" id="q1_4" placeholder="Tên thứ tiếng Anh">
+        <button class="btn btn-sm" onclick="checkText(1,4,'saturday')">Kiểm tra</button>
+        <div class="feedback" id="f1_4"></div>
+      </div>
+    </section>
+
+    <section id="t1l4" class="card hidden">
+      <h3>1.4 Bài toán tính tuổi <span class="tag">Logic</span></h3>
+      <div class="method-box">
+        <strong>Quy tắc quan trọng:</strong> Hiệu số tuổi giữa 2 người luôn không đổi theo thời gian.<br>
+        • Nếu “tuổi A sau x năm = tuổi B sau y năm” → A kém B (x − y) tuổi (nếu x > y).<br>
+        • Quy về cùng một mốc thời gian rồi tính.
+      </div>
+      <div class="quiz-box">
+        Năm nay An 12 tuổi. Tuổi của An sau 5 năm bằng tuổi của Bình sau 2 năm. Hỏi năm nay Bình bao nhiêu tuổi?
+        <br><br>
+        <input type="number" id="q1_5" placeholder="Tuổi">
+        <button class="btn btn-sm" onclick="check(1,5,15)">Kiểm tra</button>
+        <div class="feedback" id="f1_5"></div>
+      </div>
+    </section>
+
+    <section id="t1l5" class="card hidden">
+      <h3>1.5 Bài toán xếp hàng <span class="tag">Logic</span></h3>
+      <div class="method-box">
+        Vị trí = số người đứng trước + 1<br>
+        Số người đứng giữa A và B = |vị trí A − vị trí B| − 1<br>
+        Tổng số người = vị trí + số người đứng sau
+      </div>
+      <div class="quiz-box">
+        Trong hàng có 20 bạn. Mai đứng thứ 7. Hỏi có bao nhiêu bạn đứng sau Mai?
+        <br><br>
+        <input type="number" id="q1_6" placeholder="Số bạn">
+        <button class="btn btn-sm" onclick="check(1,6,13)">Kiểm tra</button>
+        <div class="feedback" id="f1_6"></div>
+      </div>
+    </section>
+
+    <!-- ==================== TOPIC 2 ==================== -->
+    <section id="t2l1" class="card hidden">
+      <h3>2.1 Ghép cặp hợp lý (Smart combination) <span class="tag">Số học</span></h3>
+      <div class="method-box">
+        Khi cộng nhiều số, hãy ghép các cặp có hàng đơn vị bù nhau thành 10 (1+9, 2+8, 3+7, 4+6, 5+5) để tính nhanh.
+      </div>
+      <div class="quiz-box">
+        Tính nhanh: 47 + 28 + 53 + 12 + 35
+        <br><br>
+        <input type="number" id="q2_1" placeholder="Tổng">
+        <button class="btn btn-sm" onclick="check(2,1,175)">Kiểm tra</button>
+        <div class="feedback" id="f2_1"></div>
+      </div>
+    </section>
+
+    <section id="t2l2" class="card hidden">
+      <h3>2.2 Tính chất phân phối & giao hoán của phép nhân</h3>
+      <div class="method-box">
+        a × b + a × c = a × (b + c)<br>
+        a × b − a × c = a × (b − c)<br>
+        Có thể đổi chỗ các thừa số để nhân dễ hơn (ví dụ 25 × 4 × 7 = 100 × 7).
+      </div>
+      <div class="quiz-box">
+        Tính: 13 × 7 + 13 × 3 − 13 × 4
+        <br><br>
+        <input type="number" id="q2_2" placeholder="Kết quả">
+        <button class="btn btn-sm" onclick="check(2,2,78)">Kiểm tra</button>
+        <div class="feedback" id="f2_2"></div>
+      </div>
+    </section>
+
+    <section id="t2l3" class="card hidden">
+      <h3>2.3 Cân bằng phép tính</h3>
+      <div class="method-box">
+        Tính trước vế đã biết đủ, rồi tìm số còn thiếu ở vế còn lại.
+      </div>
+      <div class="quiz-box">
+        18 + ? = 25 − 3
+        <br><br>
+        <input type="number" id="q2_3" placeholder="?">
+        <button class="btn btn-sm" onclick="check(2,3,4)">Kiểm tra</button>
+        <div class="feedback" id="f2_3"></div>
+      </div>
+    </section>
+
+    <section id="t2l4" class="card hidden">
+      <h3>2.4 Cryptarithm (Bài toán mật mã số)</h3>
+      <div class="method-box">
+        Đặt phép tính theo cột. Xét từng cột từ phải sang trái, luôn chia 2 trường hợp: có nhớ và không nhớ.
+      </div>
+      <div class="example-box">
+        Ví dụ đơn giản: &nbsp; A3<br>+ &nbsp; 2A<br>——<br>&nbsp; 7 5<br>→ Cột đơn vị: 3+A = 5 hoặc 15 → thử lần lượt.
+      </div>
+    </section>
+
+    <!-- ==================== TOPIC 3 ==================== -->
+    <section id="t3l1" class="card hidden">
+      <h3>3.1 Số lẻ & số chẵn</h3>
+      <div class="method-box">
+        Chỉ cần nhìn chữ số tận cùng:<br>
+        • 0,2,4,6,8 → Chẵn<br>
+        • 1,3,5,7,9 → Lẻ<br>
+        Tổng/hiệu/tích của các số lẻ-chẵn cũng có quy luật riêng (lẻ+lẻ=chẵn, lẻ×lẻ=lẻ…).
+      </div>
+      <div class="quiz-box">
+        Trong các số 47, 82, 105, 36, 19 có bao nhiêu số lẻ?
+        <br><br>
+        <input type="number" id="q3_1" placeholder="Số lượng">
+        <button class="btn btn-sm" onclick="check(3,1,3)">Kiểm tra</button>
+        <div class="feedback" id="f3_1"></div>
+      </div>
+    </section>
+
+    <section id="t3l2" class="card hidden">
+      <h3>3.2 Sắp xếp số theo thứ tự</h3>
+      <div class="method-box">
+        So sánh từ trái sang phải (hàng nghìn → trăm → chục → đơn vị). Có thể sắp tăng dần rồi đảo ngược để được giảm dần.
+      </div>
+    </section>
+
+    <section id="t3l3" class="card hidden">
+      <h3>3.3 Chia đều đồ vật</h3>
+      <div class="method-box">
+        Dùng phép chia hoặc phép nhân ngược. Nếu còn dư thì ghi rõ “chia hết” hay “dư bao nhiêu”.
+      </div>
+    </section>
+
+    <!-- ==================== TOPIC 4 ==================== -->
+    <section id="t4l1" class="card hidden">
+      <h3>4.1 Đếm hình vuông</h3>
+      <div class="method-box">
+        Đếm theo kích thước: 1×1, 2×2, 3×3… rồi cộng lại.<br>
+        Công thức nhanh với lưới n×n: số hình vuông = 1² + 2² + … + n².
+      </div>
+      <div class="example-box">
+        Lưới 2×2 (4 ô nhỏ): có 4 hình 1×1 + 1 hình 2×2 = 5 hình vuông.
+        <div class="geo-grid" style="grid-template-columns: repeat(2,36px);">
+          <div class="geo-cell"></div><div class="geo-cell"></div>
+          <div class="geo-cell"></div><div class="geo-cell"></div>
+        </div>
+      </div>
+      <div class="quiz-box">
+        Lưới 3×3 có tất cả bao nhiêu hình vuông?
+        <br><br>
+        <input type="number" id="q4_1" placeholder="Số hình">
+        <button class="btn btn-sm" onclick="check(4,1,14)">Kiểm tra</button>
+        <div class="feedback" id="f4_1"></div>
+      </div>
+    </section>
+
+    <section id="t4l2" class="card hidden">
+      <h3>4.2 Đếm hình tam giác</h3>
+      <div class="method-box">
+        Đánh số các tam giác nhỏ nhất, sau đó đếm các tam giác ghép từ 2, 3, 4… tam giác nhỏ.
+      </div>
+    </section>
+
+    <section id="t4l3" class="card hidden">
+      <h3>4.3 Đếm đoạn thẳng</h3>
+      <div class="method-box">
+        Nếu có n điểm thẳng hàng thì số đoạn thẳng = n(n−1)/2.<br>
+        Đếm theo số điểm nằm giữa: đoạn không điểm giữa, 1 điểm giữa, 2 điểm giữa…
+      </div>
+    </section>
+
+    <!-- ==================== TOPIC 5 ==================== -->
+    <section id="t5l1" class="card hidden">
+      <h3>5.1 Thành lập số</h3>
+      <div class="method-box">
+        • Muốn số lớn nhất: chọn chữ số lớn nhất từ trái sang phải.<br>
+        • Muốn số nhỏ nhất: chọn chữ số nhỏ nhất (khác 0 ở hàng đầu) từ trái sang phải.<br>
+        • Muốn số chẵn/lẻ: ưu tiên chữ số tận cùng trước, rồi mới chọn các chữ số còn lại.
+      </div>
+      <div class="quiz-box">
+        Từ các chữ số 2, 5, 7, 0 (dùng mỗi chữ số nhiều nhất 1 lần), số chẵn lớn nhất có 3 chữ số là?
+        <br><br>
+        <input type="number" id="q5_1" placeholder="Số">
+        <button class="btn btn-sm" onclick="check(5,1,750)">Kiểm tra</button>
+        <div class="feedback" id="f5_1"></div>
+      </div>
+    </section>
+
+    <section id="t5l2" class="card hidden">
+      <h3>5.2 Tìm tổng / hiệu lớn nhất – nhỏ nhất</h3>
+      <div class="method-box">
+        Tổng lớn nhất = số lớn nhất có thể + số lớn thứ hai (thường dùng các chữ số lớn).<br>
+        Hiệu lớn nhất = số lớn nhất − số nhỏ nhất có thể tạo được.
+      </div>
+    </section>
+
+    <footer>
+      Tài liệu ôn tập gốc được tạo để hỗ trợ học sinh tự luyện các dạng bài Olympic Toán khối 2.<br>
+      Không sao chép nội dung từ bất kỳ xuất bản phẩm có bản quyền nào.<br>
+      Chúc bạn ôn tập hiệu quả! 💪
+    </footer>
+  </main>
+
+  <script>
+    // Theme
+    function toggleTheme() {
+      const html = document.documentElement;
+      const current = html.getAttribute('data-theme');
+      html.setAttribute('data-theme', current === 'light' ? 'dark' : 'light');
+      localStorage.setItem('theme', html.getAttribute('data-theme'));
+    }
+    if (localStorage.getItem('theme') === 'light') {
+      document.documentElement.setAttribute('data-theme', 'light');
+    }
+
+    // Sidebar mobile
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('open');
+    }
+
+    // Topic accordion
+    function toggleTopic(btn) {
+      btn.parentElement.classList.toggle('open');
+    }
+
+    // Navigation
+    const sections = document.querySelectorAll('main > section');
+    const links = document.querySelectorAll('.nav-lessons a');
+
+    function showSection(id) {
+      sections.forEach(s => s.classList.add('hidden'));
+      const target = document.getElementById(id);
+      if (target) {
+        target.classList.remove('hidden');
+        document.getElementById('pageTitle').textContent = target.querySelector('h3')?.textContent || 'Ôn tập';
+      }
+      links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + id));
+      // close sidebar on mobile
+      document.getElementById('sidebar').classList.remove('open');
+      window.scrollTo(0, 0);
+    }
+
+    links.forEach(a => {
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        const id = a.getAttribute('href').slice(1);
+        showSection(id);
+        markVisited(id);
+      });
+    });
+
+    // Progress
+    const allIds = ['t1l1','t1l2','t1l3','t1l4','t1l5','t2l1','t2l2','t2l3','t2l4','t3l1','t3l2','t3l3','t4l1','t4l2','t4l3','t5l1','t5l2'];
+    function loadProgress() {
+      const visited = JSON.parse(localStorage.getItem('visited') || '[]');
+      const pct = Math.round(visited.length / allIds.length * 100);
+      document.getElementById('progressFill').style.width = pct + '%';
+      document.getElementById('progressText').textContent = pct + '% hoàn thành (' + visited.length + '/' + allIds.length + ')';
+    }
+    function markVisited(id) {
+      let visited = JSON.parse(localStorage.getItem('visited') || '[]');
+      if (!visited.includes(id)) {
+        visited.push(id);
+        localStorage.setItem('visited', JSON.stringify(visited));
+        loadProgress();
+      }
+    }
+    function resetProgress() {
+      if (confirm('Xóa toàn bộ tiến độ ôn tập?')) {
+        localStorage.removeItem('visited');
+        loadProgress();
+      }
+    }
+    loadProgress();
+
+    // Quiz checkers
+    function check(topic, q, answer) {
+      const input = document.getElementById(`q${topic}_${q}`);
+      const fb = document.getElementById(`f${topic}_${q}`);
+      const val = parseInt(input.value);
+      if (val === answer) {
+        fb.textContent = '✅ Chính xác!';
+        fb.className = 'feedback ok';
+      } else {
+        fb.textContent = '❌ Chưa đúng, thử lại nhé!';
+        fb.className = 'feedback err';
+      }
+    }
+    function checkText(topic, q, answer) {
+      const input = document.getElementById(`q${topic}_${q}`);
+      const fb = document.getElementById(`f${topic}_${q}`);
+      const val = (input.value || '').trim().toLowerCase();
+      if (val === answer.toLowerCase()) {
+        fb.textContent = '✅ Chính xác!';
+        fb.className = 'feedback ok';
+      } else {
+        fb.textContent = '❌ Chưa đúng, thử lại nhé!';
+        fb.className = 'feedback err';
+      }
+    }
+
+    // Default show intro
+    showSection('intro');
+  </script>
+</body>
+</html>
